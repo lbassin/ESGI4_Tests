@@ -1,0 +1,29 @@
+version: "3.3"
+services:
+  zf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - database
+    environment:
+      - SKEL_DB_HOST=database
+      - SKEL_DB_NAME=zend
+      - SKEL_DB_USER=zend
+      - SKEL_DB_PASS=zend
+      - SKEL_DB_PORT=3306
+  database:
+    image: mysql:5.7
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=zend
+      - MYSQL_DATABASE=zend
+      - MYSQL_USER=zend
+      - MYSQL_PASSWORD=zend
+    ports:
+      - 3306:3306
