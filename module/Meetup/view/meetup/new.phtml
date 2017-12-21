@@ -1,3 +1,4 @@
+<?php $form = $this->form; /** @var $form \Zend\Form\Form */ ?>
 <div class="row">
     <div class="col-xs-12">
         <h1>New meetup</h1>
@@ -7,22 +8,38 @@
     <div class="col-xs-6 col-xs-offset-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Panel title</h3>
+                <h3 class="panel-title">Meeting</h3>
             </div>
             <div class="panel-body">
-                Panel content
+                <?php echo $this->form()->openTag($form); ?>
+                <div class="form-group">
+                    <?php echo $this->formRow($form->get('title')); ?>
+                </div>
+                <div class="form-group">
+                    <?php echo $this->formRow($form->get('description')); ?>
+                </div>
+                <div class="form-group">
+                    <?php echo $this->formLabel($form->get('startAt')); ?>
+                    <?php echo $this->formElement($form->get('startAt')); ?>
+                </div>
+                <div class="form-group">
+                    <?php echo $this->formLabel($form->get('endAt')); ?>
+                    <?php echo $this->formElement($form->get('endAt')); ?>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <?php echo $this->formSubmit($form->get('submit')); ?>
+                </div>
+                <?php echo $this->form()->closeTag($form); ?>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <div class="text-right">
+        <div class="text-left">
             <a href="<?php echo $this->url('home'); ?>">
                 <button type="button" class="btn btn-default">Back to the list</button>
-            </a>
-            <a href="<?php echo $this->url('new'); ?>">
-                <button type="button" class="btn btn-primary">Create meetup</button>
             </a>
         </div>
     </div>

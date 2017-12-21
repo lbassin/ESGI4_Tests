@@ -4,28 +4,38 @@ namespace Meetup\Controller;
 
 use Doctrine\ORM\ORMException;
 use Meetup\Entity\Meetup;
+use Meetup\Form\MeetupForm;
 use Meetup\Repository\MeetupRepository;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Zend\View\Model\ViewModel;
 
+/**
+ * Class {MeetupController}
+ *
+ * @author                 Laurent Bassin <laurent.bassin@dnd.fr>
+ */
 class MeetupController extends AbstractActionController
 {
-    /** @property FlashMessenger flashMessenger() */
-
     /**
      * @var MeetupRepository
      */
     private $meetupRepository;
+    /**
+     * @var MeetupForm
+     */
+    private $meetupForm;
 
     /**
      * MeetupController constructor.
      * @param MeetupRepository $meetupRepository
+     * @param MeetupForm $meetupForm
      */
-    public function __construct(MeetupRepository $meetupRepository)
+    public function __construct(MeetupRepository $meetupRepository, MeetupForm $meetupForm)
     {
         $this->meetupRepository = $meetupRepository;
+        $this->meetupForm = $meetupForm;
     }
 
     /**
@@ -45,7 +55,11 @@ class MeetupController extends AbstractActionController
      */
     public function newAction()
     {
-        return new ViewModel();
+        $this->meetupForm->prepare();
+
+        return new ViewModel([
+            'form' => $this->meetupForm
+        ]);
     }
 
     /**

@@ -5,6 +5,8 @@ namespace Meetup\Controller\Factory;
 use Doctrine\ORM\EntityManager;
 use Meetup\Controller\MeetupController;
 use Meetup\Entity\Meetup;
+use Meetup\Form\MeetupForm;
+use Meetup\Repository\MeetupRepository;
 use Psr\Container\ContainerInterface;
 
 class MeetupControllerFactory
@@ -18,10 +20,15 @@ class MeetupControllerFactory
      */
     public function __invoke(ContainerInterface $container): MeetupController
     {
+        /** @var EntityManager $entityManager */
         $entityManager = $container->get(EntityManager::class);
+        /** @var MeetupRepository $meetupRepository */
         $meetupRepository = $entityManager->getRepository(Meetup::class);
 
-        return new MeetupController($meetupRepository);
+        /** @var MeetupForm $meetupForm */
+        $meetupForm = $container->get(MeetupForm::class);
+
+        return new MeetupController($meetupRepository, $meetupForm);
     }
 
 }
