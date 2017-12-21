@@ -1,26 +1,21 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
 namespace Meetup\Controller;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\ORMException;
 use Meetup\Entity\Meetup;
 use Meetup\Repository\MeetupRepository;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Zend\View\Model\ViewModel;
 
-/**
- * Class MeetupController
- * @package Meetup\Controller
- */
 class MeetupController extends AbstractActionController
 {
+    /** @property FlashMessenger flashMessenger() */
+
     /**
-     * @var EntityRepository
+     * @var MeetupRepository
      */
     private $meetupRepository;
 
@@ -73,8 +68,33 @@ class MeetupController extends AbstractActionController
         ]);
     }
 
+    /**
+     * @return string|\Zend\Http\Response
+     */
     public function deleteAction()
     {
-        return '';
+        /** @var FlashMessenger $flashMessenger */
+        /** @noinspection PhpUndefinedMethodInspection */
+        $flashMessenger = $this->flashMessenger();
+
+        /** @var Request $request */
+        $request = $this->getRequest();
+        /** @var int $id */
+        $id = $request->getPost('id');
+
+        if (empty($id)) {
+            $flashMessenger->addErrorMessage('An error occurred');
+        }
+
+        try {
+            $this->meetupRepository->deleteById($id);
+        } catch (ORMException $e) {
+            $flashMessenger->addErrorMessage('An error occurred');
+        }
+
+        $flashMessenger->addSuccessMessage('Remove has been removed');
+
+        return $this->redirect()->toRoute('home');
     }
 }
+

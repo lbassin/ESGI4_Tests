@@ -21,4 +21,17 @@ class MeetupRepository extends EntityRepository
         $this->getEntityManager()->persist($meetup);
         $this->getEntityManager()->flush($meetup);
     }
+
+    /**
+     * @param int $id
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function deleteById(int $id): void
+    {
+        /** @var Meetup $meetup */
+        $meetup = $this->find($id);
+
+        $this->getEntityManager()->remove($meetup);
+        $this->getEntityManager()->flush();
+    }
 }

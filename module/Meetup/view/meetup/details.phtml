@@ -22,14 +22,15 @@ $meetup = $this->meetup;
                 <p class="text-center">
                     <?php echo $meetup->getStartAt()->format('d/m/Y H:i'); ?>
                     ->
-                    <?php echo $meetup->getEndAt()->format('d/m/Y H:i'); ?>
+                    <?php echo $meetup->getEndAt()->format('H:i'); ?>
                 </p>
             </div>
             <div class="panel-footer">
                 <div class="text-right">
-                    <a href="<?php echo $this->url('delete'); ?>">
+                    <form action="<?php echo $this->url('delete'); ?>" method="post">
+                        <input type="hidden" name="id" value="<?php echo $meetup->getId(); ?>">
                         <button class="btn btn-danger">Remove</button>
-                    </a>
+                    </form>
                 </div>
             </div>
         </div>
