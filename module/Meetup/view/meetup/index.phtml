@@ -1,1 +1,26 @@
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus commodi ea fugit magnam maiores nostrum obcaecati sit unde ut vero. Consectetur cum in ipsum labore laboriosam modi unde velit veniam.
+<div class="row">
+    <div class="col-xs-12">
+        <h1>List of meetup</h1>
+    </div>
+</div>
+<div class="row">
+    <?php for($i = 0; $i < 4; $i++): ?>
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
+    </div>
+    <?php endfor; ?>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="text-right">
+            <button type="button" class="btn btn-default">Add new meetup</button>
+        </div>
+    </div>
+</div>
