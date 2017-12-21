@@ -7,6 +7,7 @@
 
 namespace Meetup\Controller;
 
+use Doctrine\ORM\EntityRepository;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\View;
@@ -18,11 +19,29 @@ use Zend\View\View;
 class MeetupController extends AbstractActionController
 {
     /**
+     * @var EntityRepository
+     */
+    private $meetupRepository;
+
+    /**
+     * MeetupController constructor.
+     * @param EntityRepository $meetupRepository
+     */
+    public function __construct(EntityRepository $meetupRepository)
+    {
+        $this->meetupRepository = $meetupRepository;
+    }
+
+    /**
      * @return array|ViewModel
      */
     public function indexAction()
     {
-        return new ViewModel();
+        /** @var array $meetups */
+        $meetups = $this->meetupRepository->findAll();
+        return new ViewModel([
+            'meetups' => $meetups
+        ]);
     }
 
     /**

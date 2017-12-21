@@ -8,6 +8,7 @@
 namespace Meetup;
 
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Meetup\Controller\Factory\MeetupControllerFactory;
 use Zend\Router\Http\Literal;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -38,7 +39,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\MeetupController::class => InvokableFactory::class,
+            Controller\MeetupController::class => MeetupControllerFactory::class,
         ],
     ],
     'view_manager' => [
