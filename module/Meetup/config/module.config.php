@@ -46,5 +46,21 @@ return [
             'meetup/meetup/index' => __DIR__ . '/../view/meetup/index.phtml',
             'meetup/meetup/new' => __DIR__ . '/../view/meetup/new.phtml',
         ],
-    ]
+    ],
+    'doctrine' => [
+        'driver' => [
+            'application_driver' => [
+                'class' => AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => [
+                    __DIR__ . '/../src/Entity/',
+                ],
+            ],
+            'orm_default' => [
+                'drivers' => [
+                    'Meetup\Entity' => 'application_driver',
+                ],
+            ],
+        ],
+    ],
 ];
