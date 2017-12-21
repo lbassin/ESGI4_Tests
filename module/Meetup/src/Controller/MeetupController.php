@@ -72,4 +72,9 @@ class MeetupController extends AbstractActionController
             'meetup' => $meetup
         ]);
     }
+
+    public function deleteAction()
+    {
+        return '';
+    }
 }

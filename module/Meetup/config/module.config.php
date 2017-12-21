@@ -45,6 +45,16 @@ return [
                         'action' => 'details',
                     ]
                 ]
+            ],
+            'delete' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/delete',
+                    'defaults' => [
+                        'controller' => Controller\MeetupController::class,
+                        'action' => 'delete'
+                    ]
+                ]
             ]
         ],
     ],
