@@ -9,9 +9,9 @@ namespace Meetup\Controller;
 
 use Doctrine\ORM\EntityRepository;
 use Meetup\Entity\Meetup;
+use Meetup\Repository\MeetupRepository;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\View\View;
 
 /**
  * Class MeetupController
@@ -26,9 +26,9 @@ class MeetupController extends AbstractActionController
 
     /**
      * MeetupController constructor.
-     * @param EntityRepository $meetupRepository
+     * @param MeetupRepository $meetupRepository
      */
-    public function __construct(EntityRepository $meetupRepository)
+    public function __construct(MeetupRepository $meetupRepository)
     {
         $this->meetupRepository = $meetupRepository;
     }

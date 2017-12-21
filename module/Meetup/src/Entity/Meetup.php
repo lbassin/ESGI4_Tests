@@ -95,7 +95,7 @@ class Meetup
      */
     public function getStartAt(): \DateTime
     {
-        return $this->start;
+        return $this->startAt;
     }
 
     /**
@@ -111,7 +111,7 @@ class Meetup
      */
     public function getEndAt(): \DateTime
     {
-        return $this->getEndAt();
+        return $this->endAt;
     }
 
     /**

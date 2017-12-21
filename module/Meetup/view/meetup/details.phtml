@@ -2,6 +2,7 @@
 /** @var \Meetup\Entity\Meetup $meetup */
 $meetup = $this->meetup;
 ?>
+<?php if(isset($meetup)): ?>
 <div class="row">
     <div class="col-xs-12">
         <h1>View Meetup</h1>
@@ -19,8 +20,17 @@ $meetup = $this->meetup;
                 </p>
                 <hr>
                 <p class="text-center">
-                    <?php $meetup->getStartAt(); ?> - <?php $meetup->getEndAt(); ?>
+                    <?php echo $meetup->getStartAt()->format('d/m/Y H:i'); ?>
+                    ->
+                    <?php echo $meetup->getEndAt()->format('d/m/Y H:i'); ?>
                 </p>
+            </div>
+            <div class="panel-footer">
+                <div class="text-right">
+                    <a href="<?php echo $this->url('remove'); ?>">
+                        <button class="btn btn-danger">Remove</button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -34,3 +44,10 @@ $meetup = $this->meetup;
         </div>
     </div>
 </div>
+<?php else: ?>
+<div class="row">
+    <div class="col-xs-12">
+        <h1>Meetup not found</h1>
+    </div>
+</div>
+<?php endif;?>
