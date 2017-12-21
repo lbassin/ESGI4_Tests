@@ -51,4 +51,8 @@ class MeetupController extends AbstractActionController
     {
         return new ViewModel();
     }
+
+    public function detailsAction(){
+        return new ViewModel();
+    }
 }

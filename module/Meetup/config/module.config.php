@@ -10,6 +10,7 @@ namespace Meetup;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Meetup\Controller\Factory\MeetupControllerFactory;
 use Zend\Router\Http\Literal;
+use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -34,6 +35,16 @@ return [
                         'action' => 'new',
                     ]
                 ]
+            ],
+            'details' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/details/:id',
+                    'defaults' => [
+                        'controller' => Controller\MeetupController::class,
+                        'action' => 'details',
+                    ]
+                ]
             ]
         ],
     ],
@@ -46,6 +57,7 @@ return [
         'template_map' => [
             'meetup/meetup/index' => __DIR__ . '/../view/meetup/index.phtml',
             'meetup/meetup/new' => __DIR__ . '/../view/meetup/new.phtml',
+            'meetup/meetup/details' => __DIR__ . '/../view/meetup/details.phtml',
         ],
     ],
     'doctrine' => [
