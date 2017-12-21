@@ -8,6 +8,7 @@
 namespace Meetup\Controller;
 
 use Doctrine\ORM\EntityRepository;
+use Meetup\Entity\Meetup;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\View;
@@ -52,7 +53,23 @@ class MeetupController extends AbstractActionController
         return new ViewModel();
     }
 
-    public function detailsAction(){
-        return new ViewModel();
+    /**
+     * @return ViewModel
+     */
+    public function detailsAction()
+    {
+        /** @var Meetup $meetup */
+        $meetup = null;
+
+        /** @var int $id */
+        $meetupId = $this->params('id');
+
+        if (!empty($meetupId)) {
+            $meetup = $this->meetupRepository->find($meetupId);
+        }
+
+        return new ViewModel([
+            'meetup' => $meetup
+        ]);
     }
 }
