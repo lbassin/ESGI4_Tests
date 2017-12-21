@@ -19,21 +19,32 @@ return [
                 'options' => [
                     'route' => '/',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => Controller\MeetupController::class,
                         'action' => 'index',
                     ],
                 ],
             ],
+            'new' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/new',
+                    'defaults' => [
+                        'controller' => Controller\MeetupController::class,
+                        'action' => 'new',
+                    ]
+                ]
+            ]
         ],
     ],
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+            Controller\MeetupController::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [
         'template_map' => [
-            'meetup/index/index' => __DIR__ . '/../view/meetup/index.phtml',
+            'meetup/meetup/index' => __DIR__ . '/../view/meetup/index.phtml',
+            'meetup/meetup/new' => __DIR__ . '/../view/meetup/new.phtml',
         ],
     ]
 ];

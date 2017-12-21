@@ -9,10 +9,26 @@ namespace Meetup\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\View;
 
-class IndexController extends AbstractActionController
+/**
+ * Class MeetupController
+ * @package Meetup\Controller
+ */
+class MeetupController extends AbstractActionController
 {
+    /**
+     * @return array|ViewModel
+     */
     public function indexAction()
+    {
+        return new ViewModel();
+    }
+
+    /**
+     * @return ViewModel
+     */
+    public function newAction()
     {
         return new ViewModel();
     }
