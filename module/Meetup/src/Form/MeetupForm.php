@@ -2,10 +2,19 @@
 
 namespace Meetup\Form;
 
+use Zend\Filter\DateTimeSelect;
 use Zend\Form\Form;
 use Zend\Form\Element;
+use Zend\InputFilter\InputFilterProviderInterface;
+use Zend\Validator\Callback;
+use Zend\Validator\StringLength;
 
-class MeetupForm extends Form
+/**
+ * Class {MeetupForm}
+ *
+ * @author                 Laurent Bassin <laurent.bassin@dnd.fr>
+ */
+class MeetupForm extends Form implements InputFilterProviderInterface
 {
     /**
      * MeetupForm constructor.
@@ -36,7 +45,9 @@ class MeetupForm extends Form
             'type' => Element\DateTimeSelect::class,
             'name' => 'startAt',
             'options' => [
-                'label' => 'Date début :'
+                'label' => 'Date début :',
+                'min_year' => date('Y') - 0,
+                'max_year' => date('Y') + 6,
             ]
         ]);
 
@@ -45,7 +56,9 @@ class MeetupForm extends Form
             'name' => 'endAt',
             'options' => [
                 'label' => 'Date fin : ',
-                'format' => 'd/m/Y'
+                'format' => 'd/m/Y',
+                'min_year' => date('Y') - 0,
+                'max_year' => date('Y') + 6,
             ]
         ]);
 
@@ -59,5 +72,77 @@ class MeetupForm extends Form
                 'label' => ''
             ]
         ]);
+    }
+
+    /**
+     * Should return an array specification compatible with
+     * {@link Zend\InputFilter\Factory::createInputFilter()}.
+     *
+     * @return array
+     */
+    public function getInputFilterSpecification()
+    {
+        return [
+            'title' => [
+                'validators' => [
+                    [
+                        'name' => StringLength::class,
+                        'options' => [
+                            'min' => 2,
+                            'max' => 50
+                        ]
+                    ]
+                ]
+            ],
+            'description' => [
+                'validators' => [
+                    [
+                        'name' => StringLength::class,
+                        'options' => [
+                            'min' => 2,
+                            'max' => 2000
+                        ]
+                    ]
+                ]
+            ],
+            'endAt' => [
+                'validators' => [
+                    [
+                        'name' => Callback::class,
+                        'options' => [
+                            'callback' => function ($value, $context) {
+                                if (empty($context['startAt'])) {
+                                    return false;
+                                }
+                                /** @var array $startAt */
+                                $startAt = $context['startAt'];
+
+                                if (empty($startAt['month']) ||
+                                    empty($startAt['day']) ||
+                                    empty($startAt['year']) ||
+                                    empty($startAt['hour']) ||
+                                    empty($startAt['minute'])
+                                ) {
+                                    return false;
+                                }
+
+                                /** @var \DateTime $startDate */
+                                $startDate = new \DateTime(
+                                    $startAt['year'] . '-' .
+                                    $startAt['month'] . '-' .
+                                    $startAt['day'] . ' ' .
+                                    $startAt['hour'] . ':' .
+                                    $startAt['minute'] . ':00');
+
+                                /** @var \DateTime $endDate */
+                                $endDate = new \DateTime($value);
+
+                                return $startDate < $endDate;
+                            }
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 }

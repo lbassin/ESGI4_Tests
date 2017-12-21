@@ -2,7 +2,9 @@
 
 namespace Meetup\Controller;
 
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\QueryException;
 use Meetup\Entity\Meetup;
 use Meetup\Form\MeetupForm;
 use Meetup\Repository\MeetupRepository;
@@ -55,6 +57,12 @@ class MeetupController extends AbstractActionController
      */
     public function newAction()
     {
+        /* @var $request Request */
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            return $this->saveMeetup();
+        }
+
         $this->meetupForm->prepare();
 
         return new ViewModel([
@@ -93,8 +101,8 @@ class MeetupController extends AbstractActionController
 
         /** @var Request $request */
         $request = $this->getRequest();
-        /** @var int $id */
-        $id = $request->getPost('id');
+        /** @var string $id */
+        $id = (string)$request->getPost('id');
 
         if (empty($id)) {
             $flashMessenger->addErrorMessage('An error occurred');
@@ -109,6 +117,32 @@ class MeetupController extends AbstractActionController
         $flashMessenger->addSuccessMessage('Remove has been removed');
 
         return $this->redirect()->toRoute('home');
+    }
+
+    private function saveMeetup()
+    {
+        /** @var FlashMessenger $flashMessenger */
+        /** @noinspection PhpUndefinedMethodInspection */
+        $flashMessenger = $this->flashMessenger();
+        /** @var MeetupForm $form */
+        $form = $this->meetupForm;
+        /* @var $request Request */
+        $request = $this->getRequest();
+
+        $form->setData($request->getPost());
+        if ($form->isValid()) {
+            try {
+                $this->meetupRepository->save($form->getData());
+            } catch (OptimisticLockException $e) {
+                $flashMessenger->addErrorMessage('An error occurred');
+            } catch (ORMException $e) {
+                $flashMessenger->addErrorMessage('An error occurred');
+            }
+
+            $flashMessenger->addSuccessMessage('Meet-up has been created');
+
+            return $this->redirect()->toRoute('home');;
+        }
     }
 }
 

@@ -21,10 +21,12 @@
                 <div class="form-group">
                     <?php echo $this->formLabel($form->get('startAt')); ?>
                     <?php echo $this->formElement($form->get('startAt')); ?>
+                    <?php echo $this->formElementErrors($form->get('startAt')); ?>
                 </div>
                 <div class="form-group">
                     <?php echo $this->formLabel($form->get('endAt')); ?>
                     <?php echo $this->formElement($form->get('endAt')); ?>
+                    <?php echo $this->formElementErrors($form->get('endAt')); ?>
                 </div>
                 <hr>
                 <div class="text-center">
