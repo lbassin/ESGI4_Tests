@@ -60,7 +60,7 @@ class MeetupController extends AbstractActionController
         /* @var $request Request */
         $request = $this->getRequest();
         if ($request->isPost()) {
-            return $this->saveMeetup();
+            $this->saveMeetup();
         }
 
         $this->meetupForm->prepare();
@@ -73,7 +73,7 @@ class MeetupController extends AbstractActionController
     /**
      * @return ViewModel
      */
-    public function detailsAction()
+    public function viewAction()
     {
         /** @var Meetup $meetup */
         $meetup = null;
@@ -141,7 +141,7 @@ class MeetupController extends AbstractActionController
 
             $flashMessenger->addSuccessMessage('Meet-up has been created');
 
-            return $this->redirect()->toRoute('home');;
+            return $this->redirect()->toRoute('home');
         }
     }
 }

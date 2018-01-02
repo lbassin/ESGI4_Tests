@@ -10,55 +10,53 @@ namespace Meetup;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Meetup\Controller\Factory\MeetupControllerFactory;
 use Meetup\Form\Factory\MeetupFormFactory;
-use Meetup\Form\MeetupForm;
 use Meetup\Form\MeetupFormInterface;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
         'routes' => [
-            'home' => [
+            'meetups' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route' => '/',
+                    'route' => '/meetups',
                     'defaults' => [
                         'controller' => Controller\MeetupController::class,
                         'action' => 'index',
                     ],
                 ],
-            ],
-            'new' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route' => '/new',
-                    'defaults' => [
-                        'controller' => Controller\MeetupController::class,
-                        'action' => 'new',
+                'may_terminate' => true,
+                'child_routes' => [
+                    'new' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route' => '/new',
+                            'defaults' => [
+                                'action' => 'new'
+                            ]
+                        ]
+                    ],
+                    'view' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/view/:id',
+                            'defaults' => [
+                                'action' => 'view',
+                            ]
+                        ]
+                    ],
+                    'delete' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route' => '/delete',
+                            'defaults' => [
+                                'action' => 'delete'
+                            ]
+                        ]
                     ]
                 ]
             ],
-            'details' => [
-                'type' => Segment::class,
-                'options' => [
-                    'route' => '/details/:id',
-                    'defaults' => [
-                        'controller' => Controller\MeetupController::class,
-                        'action' => 'details',
-                    ]
-                ]
-            ],
-            'delete' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route' => '/delete',
-                    'defaults' => [
-                        'controller' => Controller\MeetupController::class,
-                        'action' => 'delete'
-                    ]
-                ]
-            ]
         ],
     ],
     'controllers' => [
@@ -75,7 +73,7 @@ return [
         'template_map' => [
             'meetup/meetup/index' => __DIR__ . '/../view/meetup/index.phtml',
             'meetup/meetup/new' => __DIR__ . '/../view/meetup/new.phtml',
-            'meetup/meetup/details' => __DIR__ . '/../view/meetup/details.phtml',
+            'meetup/meetup/view' => __DIR__ . '/../view/meetup/view.phtml',
         ],
     ],
     'doctrine' => [

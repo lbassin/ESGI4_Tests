@@ -27,7 +27,7 @@ $meetup = $this->meetup;
             </div>
             <div class="panel-footer">
                 <div class="text-right">
-                    <form action="<?php echo $this->url('delete'); ?>" method="post">
+                    <form action="<?php echo $this->url('meetups/delete'); ?>" method="post">
                         <input type="hidden" name="id" value="<?php echo $meetup->getId(); ?>">
                         <button class="btn btn-danger">Remove</button>
                     </form>

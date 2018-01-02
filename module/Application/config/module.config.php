@@ -7,7 +7,24 @@
 
 namespace Application;
 
+use Meetup\Controller\MeetupController;
+use Zend\Router\Http\Literal;
+
 return [
+    'router' => [
+        'routes' => [
+            'home' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/',
+                    'defaults' => [
+                        'controller' => MeetupController::class,
+                        'action' => 'index',
+                    ],
+                ],
+            ]
+        ]
+    ],
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions' => true,
