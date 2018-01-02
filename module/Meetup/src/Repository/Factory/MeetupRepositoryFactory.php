@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Meetup\Repository\Factory;
 
 use Doctrine\ORM\EntityManager;
@@ -7,6 +9,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Interop\Container\ContainerInterface;
 use Meetup\Entity\Meetup;
 use Meetup\Repository\MeetupRepository;
+use Meetup\Repository\MeetupRepositoryInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -26,7 +29,7 @@ final class MeetupRepositoryFactory implements FactoryInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): MeetupRepositoryInterface
     {
         /** @var EntityManager $entityManager */
         $entityManager = $container->get(EntityManager::class);

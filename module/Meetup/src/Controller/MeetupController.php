@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Meetup\Controller;
 
 use Doctrine\ORM\OptimisticLockException;
@@ -53,11 +55,10 @@ final class MeetupController extends AbstractActionController
         $this->eventManager = $eventManager;
     }
 
-
     /**
      * @return ViewModel
      */
-    public function indexAction()
+    public function indexAction(): ViewModel
     {
         /** @var array $meetups */
         $meetups = $this->meetupRepository->findAll();
@@ -70,7 +71,7 @@ final class MeetupController extends AbstractActionController
     /**
      * @return ViewModel
      */
-    public function newAction()
+    public function newAction(): ViewModel
     {
         /* @var $request Request */
         $request = $this->getRequest();
@@ -88,7 +89,7 @@ final class MeetupController extends AbstractActionController
     /**
      * @return ViewModel
      */
-    public function viewAction()
+    public function viewAction(): ViewModel
     {
         /** @var Meetup $meetup */
         $meetup = null;
@@ -106,9 +107,9 @@ final class MeetupController extends AbstractActionController
     }
 
     /**
-     * @return \Zend\Http\Response
+     * @return ResponseInterface
      */
-    public function deleteAction()
+    public function deleteAction(): ResponseInterface
     {
         /** @var FlashMessenger $flashMessenger */
         /** @noinspection PhpUndefinedMethodInspection */
@@ -140,7 +141,7 @@ final class MeetupController extends AbstractActionController
     /**
      * @return ResponseInterface
      */
-    private function saveMeetup()
+    private function saveMeetup(): ResponseInterface
     {
         /** @var FlashMessenger $flashMessenger */
         /** @noinspection PhpUndefinedMethodInspection */
@@ -169,4 +170,3 @@ final class MeetupController extends AbstractActionController
         return $this->getResponse();
     }
 }
-

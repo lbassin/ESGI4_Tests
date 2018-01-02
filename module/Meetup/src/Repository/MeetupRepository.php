@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Meetup\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -8,7 +10,6 @@ use Doctrine\ORM\Mapping;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Meetup\Entity\Meetup;
 use Zend\EventManager\EventManagerInterface;
-
 
 /**
  * Class MeetupRepository

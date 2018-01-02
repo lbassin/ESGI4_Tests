@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Meetup\Entity;
 
 use Ramsey\Uuid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Meetup

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Meetup\Form\Factory;
 
 use Interop\Container\ContainerInterface;
@@ -20,7 +22,7 @@ final class MeetupFormFactory implements FactoryInterface
      * @param array|null $options
      * @return MeetupForm|object
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): MeetupForm
     {
         return new MeetupForm();
     }

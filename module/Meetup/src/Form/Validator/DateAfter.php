@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Meetup\Form\Validator;
 
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
-
 
 /**
  * Class DateAfter
@@ -29,7 +30,7 @@ final class DateAfter extends AbstractValidator
      * @param string $endAt
      * @return bool
      */
-    public function isValid($endAt)
+    public function isValid($endAt): bool
     {
         /** @var string $startAt */
         $startAt = $this->getOption('startDate');

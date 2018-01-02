@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Meetup\Controller\Factory;
 
 use Interop\Container\ContainerInterface;
@@ -8,7 +10,6 @@ use Meetup\Form\MeetupFormInterface;
 use Meetup\Repository\MeetupRepositoryInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-
 
 /**
  * Class MeetupControllerFactory
@@ -26,7 +27,7 @@ final class MeetupControllerFactory implements FactoryInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): MeetupController
     {
         /** @var MeetupRepositoryInterface $meetupRepository */
         $meetupRepository = $container->get(MeetupRepositoryInterface::class);
@@ -37,5 +38,4 @@ final class MeetupControllerFactory implements FactoryInterface
 
         return new MeetupController($meetupRepository, $meetupForm, $eventManager);
     }
-
 }
