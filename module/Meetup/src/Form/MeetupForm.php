@@ -2,19 +2,13 @@
 
 namespace Meetup\Form;
 
-use Zend\Filter\DateTimeSelect;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\Validator\Callback;
 use Zend\Validator\StringLength;
 
-/**
- * Class {MeetupForm}
- *
- * @author                 Laurent Bassin <laurent.bassin@dnd.fr>
- */
-class MeetupForm extends Form implements InputFilterProviderInterface
+class MeetupForm extends Form implements MeetupFormInterface, InputFilterProviderInterface
 {
     /**
      * MeetupForm constructor.
@@ -80,7 +74,7 @@ class MeetupForm extends Form implements InputFilterProviderInterface
      *
      * @return array
      */
-    public function getInputFilterSpecification()
+    public function getInputFilterSpecification(): array
     {
         return [
             'title' => [

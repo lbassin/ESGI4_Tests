@@ -6,7 +6,8 @@ use Doctrine\ORM\EntityManager;
 use Meetup\Controller\MeetupController;
 use Meetup\Entity\Meetup;
 use Meetup\Form\MeetupForm;
-use Meetup\Repository\MeetupRepository;
+use Meetup\Form\MeetupFormInterface;
+use Meetup\Repository\MeetupRepositoryInterface;
 use Psr\Container\ContainerInterface;
 
 class MeetupControllerFactory
@@ -22,11 +23,11 @@ class MeetupControllerFactory
     {
         /** @var EntityManager $entityManager */
         $entityManager = $container->get(EntityManager::class);
-        /** @var MeetupRepository $meetupRepository */
+        /** @var MeetupRepositoryInterface $meetupRepository */
         $meetupRepository = $entityManager->getRepository(Meetup::class);
 
-        /** @var MeetupForm $meetupForm */
-        $meetupForm = $container->get(MeetupForm::class);
+        /** @var MeetupFormInterface $meetupForm */
+        $meetupForm = $container->get(MeetupFormInterface::class);
 
         return new MeetupController($meetupRepository, $meetupForm);
     }

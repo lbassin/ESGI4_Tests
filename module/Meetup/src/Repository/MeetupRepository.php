@@ -8,9 +8,10 @@ use Meetup\Entity\Meetup;
 
 /**
  * Class MeetupRepository
- * @package Meetup\Repository
+ * @author Laurent Bassin <laurent@bassin.info>
+ *
  */
-class MeetupRepository extends EntityRepository
+class MeetupRepository extends EntityRepository implements MeetupRepositoryInterface
 {
     /**
      * @param Meetup $meetup
@@ -41,7 +42,7 @@ class MeetupRepository extends EntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function save($data)
+    public function save($data): void
     {
         $meetup = new Meetup();
 

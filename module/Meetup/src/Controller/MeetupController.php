@@ -4,10 +4,10 @@ namespace Meetup\Controller;
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Query\QueryException;
 use Meetup\Entity\Meetup;
 use Meetup\Form\MeetupForm;
-use Meetup\Repository\MeetupRepository;
+use Meetup\Form\MeetupFormInterface;
+use Meetup\Repository\MeetupRepositoryInterface;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
@@ -21,7 +21,7 @@ use Zend\View\Model\ViewModel;
 class MeetupController extends AbstractActionController
 {
     /**
-     * @var MeetupRepository
+     * @var MeetupRepositoryInterface
      */
     private $meetupRepository;
     /**
@@ -31,10 +31,10 @@ class MeetupController extends AbstractActionController
 
     /**
      * MeetupController constructor.
-     * @param MeetupRepository $meetupRepository
-     * @param MeetupForm $meetupForm
+     * @param MeetupRepositoryInterface $meetupRepository
+     * @param MeetupFormInterface $meetupForm
      */
-    public function __construct(MeetupRepository $meetupRepository, MeetupForm $meetupForm)
+    public function __construct(MeetupRepositoryInterface $meetupRepository, MeetupFormInterface $meetupForm)
     {
         $this->meetupRepository = $meetupRepository;
         $this->meetupForm = $meetupForm;
