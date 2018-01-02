@@ -10,7 +10,7 @@ use Zend\Validator\Exception;
  *
  * @author                 Laurent Bassin <laurent.bassin@dnd.fr>
  */
-class Date extends AbstractValidator
+class DateAfter extends AbstractValidator
 {
     /**
      *

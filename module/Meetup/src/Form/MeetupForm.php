@@ -102,7 +102,7 @@ class MeetupForm extends Form implements MeetupFormInterface, InputFilterProvide
             'endAt' => [
                 'validators' => [
                     [
-                        'name' => Validator\Date::class,
+                        'name' => Validator\DateAfter::class,
                         'options' => [
                             'startDate' => $this->get('startAt')->getValue()
                         ]
