@@ -94,7 +94,7 @@ class MeetupForm extends Form implements MeetupFormInterface, InputFilterProvide
                         'name' => StringLength::class,
                         'options' => [
                             'min' => 2,
-                            'max' => 2000
+                            'max' => 2000,
                         ]
                     ]
                 ]
@@ -102,37 +102,9 @@ class MeetupForm extends Form implements MeetupFormInterface, InputFilterProvide
             'endAt' => [
                 'validators' => [
                     [
-                        'name' => Callback::class,
+                        'name' => Validator\Date::class,
                         'options' => [
-                            'callback' => function ($value, $context) {
-                                if (empty($context['startAt'])) {
-                                    return false;
-                                }
-                                /** @var array $startAt */
-                                $startAt = $context['startAt'];
-
-                                if (empty($startAt['month']) ||
-                                    empty($startAt['day']) ||
-                                    empty($startAt['year']) ||
-                                    empty($startAt['hour']) ||
-                                    empty($startAt['minute'])
-                                ) {
-                                    return false;
-                                }
-
-                                /** @var \DateTime $startDate */
-                                $startDate = new \DateTime(
-                                    $startAt['year'] . '-' .
-                                    $startAt['month'] . '-' .
-                                    $startAt['day'] . ' ' .
-                                    $startAt['hour'] . ':' .
-                                    $startAt['minute'] . ':00');
-
-                                /** @var \DateTime $endDate */
-                                $endDate = new \DateTime($value);
-
-                                return $startDate < $endDate;
-                            }
+                            'startDate' => $this->get('startAt')->getValue()
                         ]
                     ]
                 ]
