@@ -14,9 +14,7 @@ use Meetup\Entity\Meetup;
 class MeetupRepository extends EntityRepository implements MeetupRepositoryInterface
 {
     /**
-     * @param Meetup $meetup
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @inheritdoc
      */
     public function add(Meetup $meetup): void
     {
@@ -25,8 +23,7 @@ class MeetupRepository extends EntityRepository implements MeetupRepositoryInter
     }
 
     /**
-     * @param string $id
-     * @throws \Doctrine\ORM\ORMException
+     * @inheritdoc
      */
     public function deleteById(string $id): void
     {
@@ -38,9 +35,7 @@ class MeetupRepository extends EntityRepository implements MeetupRepositoryInter
     }
 
     /**
-     * @param array $data
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @inheritdoc
      */
     public function save($data): void
     {

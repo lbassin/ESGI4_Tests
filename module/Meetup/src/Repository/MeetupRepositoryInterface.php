@@ -12,6 +12,8 @@ interface MeetupRepositoryInterface
 {
     /**
      * @param Meetup $meetup
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function add(Meetup $meetup): void;
 
@@ -23,6 +25,8 @@ interface MeetupRepositoryInterface
 
     /**
      * @param $data
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function save($data): void;
 }
