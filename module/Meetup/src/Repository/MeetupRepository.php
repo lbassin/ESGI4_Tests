@@ -36,6 +36,7 @@ final class MeetupRepository extends EntityRepository implements MeetupRepositor
     )
     {
         parent::__construct($entityManager, $class);
+
         $this->eventManager = $eventManager;
     }
 
@@ -44,8 +45,12 @@ final class MeetupRepository extends EntityRepository implements MeetupRepositor
      */
     public function add(Meetup $meetup): void
     {
+        $this->eventManager->trigger('before_add', $this, ['entity' => $meetup]);
+
         $this->getEntityManager()->persist($meetup);
         $this->getEntityManager()->flush($meetup);
+
+        $this->eventManager->trigger('after_add', $this, ['entity' => $meetup]);
     }
 
     /**
