@@ -1,41 +1,40 @@
 <?php
 
-namespace Meetup\Controller\Factory;
+namespace Meetup\Repository\Factory;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Interop\Container\ContainerInterface;
-use Meetup\Controller\MeetupController;
-use Meetup\Form\MeetupFormInterface;
-use Meetup\Repository\MeetupRepositoryInterface;
+use Meetup\Entity\Meetup;
+use Meetup\Repository\MeetupRepository;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-
 /**
- * Class MeetupControllerFactory
+ * Class MeetupRepositoryFactory
  *
  * @author Laurent Bassin <laurent@bassin.info>
  */
-final class MeetupControllerFactory implements FactoryInterface
+final class MeetupRepositoryFactory implements FactoryInterface
 {
 
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return MeetupController|object
+     * @return MeetupRepository|object
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @var MeetupRepositoryInterface $meetupRepository */
-        $meetupRepository = $container->get(MeetupRepositoryInterface::class);
-        /** @var MeetupFormInterface $meetupForm */
-        $meetupForm = $container->get(MeetupFormInterface::class);
+        /** @var EntityManager $entityManager */
+        $entityManager = $container->get(EntityManager::class);
+        /** @var ClassMetadata $classMetadata */
+        $classMetadata = $entityManager->getClassMetadata(Meetup::class);
         /** @var EventManagerInterface $eventManager */
         $eventManager = $container->get(EventManagerInterface::class);
 
-        return new MeetupController($meetupRepository, $meetupForm, $eventManager);
+        return new MeetupRepository($entityManager, $classMetadata, $eventManager);
     }
-
 }

@@ -4,9 +4,11 @@ namespace Meetup\Repository;
 
 use Meetup\Entity\Meetup;
 
+
 /**
  * Interface MeetupRepositoryInterface
- * @package Meetup\Repository
+ *
+ * @author Laurent Bassin <laurent@bassin.info>
  */
 interface MeetupRepositoryInterface
 {
@@ -29,4 +31,15 @@ interface MeetupRepositoryInterface
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function save($data): void;
+
+    /**
+     * @return array
+     */
+    public function findAll();
+
+    /**
+     * @param $id
+     * @return object
+     */
+    public function find($id);
 }

@@ -2,17 +2,25 @@
 
 namespace Meetup\Form\Factory;
 
+use Interop\Container\ContainerInterface;
 use Meetup\Form\MeetupForm;
-use Meetup\Form\MeetupFormInterface;
-use Psr\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
-class MeetupFormFactory
+/**
+ * Class MeetupFormFactory
+ *
+ * @author Laurent Bassin <laurent@bassin.info>
+ */
+final class MeetupFormFactory implements FactoryInterface
 {
+
     /**
      * @param ContainerInterface $container
-     * @return MeetupFormInterface
+     * @param string $requestedName
+     * @param array|null $options
+     * @return MeetupForm|object
      */
-    public function __invoke(ContainerInterface $container): MeetupFormInterface
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new MeetupForm();
     }

@@ -5,10 +5,14 @@ namespace Meetup\Form;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use Zend\InputFilter\InputFilterProviderInterface;
-use Zend\Validator\Callback;
 use Zend\Validator\StringLength;
 
-class MeetupForm extends Form implements MeetupFormInterface, InputFilterProviderInterface
+/**
+ * Class MeetupForm
+ *
+ * @author Laurent Bassin <laurent@bassin.info>
+ */
+final class MeetupForm extends Form implements MeetupFormInterface, InputFilterProviderInterface
 {
     /**
      * MeetupForm constructor.
@@ -69,9 +73,6 @@ class MeetupForm extends Form implements MeetupFormInterface, InputFilterProvide
     }
 
     /**
-     * Should return an array specification compatible with
-     * {@link Zend\InputFilter\Factory::createInputFilter()}.
-     *
      * @return array
      */
     public function getInputFilterSpecification(): array

@@ -5,12 +5,13 @@ namespace Meetup\Form\Validator;
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
 
+
 /**
- * Class {Date}
+ * Class DateAfter
  *
- * @author                 Laurent Bassin <laurent.bassin@dnd.fr>
+ * @author Laurent Bassin <laurent@bassin.info>
  */
-class DateAfter extends AbstractValidator
+final class DateAfter extends AbstractValidator
 {
     /**
      *
@@ -23,7 +24,6 @@ class DateAfter extends AbstractValidator
     protected $messageTemplates = [
         self::INVALID => "End date has to be later than start date",
     ];
-
 
     /**
      * @param string $endAt
@@ -45,6 +45,7 @@ class DateAfter extends AbstractValidator
 
         if ($startDate > $endDate) {
             $this->error(self::INVALID);
+
             return false;
         }
 

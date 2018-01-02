@@ -4,7 +4,8 @@ namespace Meetup\Form;
 
 /**
  * Interface MeetupFormInterface
- * @package Meetup\Form
+ *
+ * @author Laurent Bassin <laurent@bassin.info>
  */
 interface MeetupFormInterface
 {
@@ -19,5 +20,10 @@ interface MeetupFormInterface
      * @return array
      */
     public function getInputFilterSpecification(): array;
+
+    /**
+     * @return MeetupForm
+     */
+    public function prepare();
 
 }

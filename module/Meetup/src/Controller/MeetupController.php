@@ -8,45 +8,60 @@ use Meetup\Entity\Meetup;
 use Meetup\Form\MeetupForm;
 use Meetup\Form\MeetupFormInterface;
 use Meetup\Repository\MeetupRepositoryInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Request;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
+use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ViewModel;
 
 /**
- * Class {MeetupController}
+ * Class MeetupController
  *
- * @author                 Laurent Bassin <laurent.bassin@dnd.fr>
+ * @author Laurent Bassin <laurent@bassin.info>
  */
-class MeetupController extends AbstractActionController
+final class MeetupController extends AbstractActionController
 {
     /**
      * @var MeetupRepositoryInterface
      */
     private $meetupRepository;
     /**
-     * @var MeetupForm
+     * @var MeetupFormInterface
      */
     private $meetupForm;
+    /**
+     * @var EventManagerInterface
+     */
+    private $eventManager;
 
     /**
      * MeetupController constructor.
      * @param MeetupRepositoryInterface $meetupRepository
      * @param MeetupFormInterface $meetupForm
+     * @param EventManagerInterface $eventManager
      */
-    public function __construct(MeetupRepositoryInterface $meetupRepository, MeetupFormInterface $meetupForm)
+    public function __construct(
+        MeetupRepositoryInterface $meetupRepository,
+        MeetupFormInterface $meetupForm,
+        EventManagerInterface $eventManager
+    )
     {
         $this->meetupRepository = $meetupRepository;
         $this->meetupForm = $meetupForm;
+        $this->eventManager = $eventManager;
     }
 
+
     /**
-     * @return array|ViewModel
+     * @return ViewModel
      */
     public function indexAction()
     {
         /** @var array $meetups */
         $meetups = $this->meetupRepository->findAll();
+
         return new ViewModel([
             'meetups' => $meetups
         ]);
@@ -91,7 +106,7 @@ class MeetupController extends AbstractActionController
     }
 
     /**
-     * @return string|\Zend\Http\Response
+     * @return \Zend\Http\Response
      */
     public function deleteAction()
     {
@@ -105,7 +120,10 @@ class MeetupController extends AbstractActionController
         $id = (string)$request->getPost('id');
 
         if (empty($id)) {
-            $flashMessenger->addErrorMessage('An error occurred');
+            /** @var Response $response */
+            $response = $this->getResponse();
+
+            return $response->setStatusCode(404);
         }
 
         try {
@@ -114,19 +132,23 @@ class MeetupController extends AbstractActionController
             $flashMessenger->addErrorMessage('An error occurred');
         }
 
-        $flashMessenger->addSuccessMessage('Remove has been removed');
+        $flashMessenger->addSuccessMessage('Meetup has been removed');
 
         return $this->redirect()->toRoute('home');
     }
 
+    /**
+     * @return ResponseInterface
+     */
     private function saveMeetup()
     {
         /** @var FlashMessenger $flashMessenger */
         /** @noinspection PhpUndefinedMethodInspection */
         $flashMessenger = $this->flashMessenger();
+
         /** @var MeetupForm $form */
         $form = $this->meetupForm;
-        /* @var $request Request */
+        /* @var Request $request */
         $request = $this->getRequest();
 
         $form->setData($request->getPost());
@@ -143,6 +165,8 @@ class MeetupController extends AbstractActionController
 
             return $this->redirect()->toRoute('home');
         }
+
+        return $this->getResponse();
     }
 }
 

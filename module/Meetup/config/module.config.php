@@ -11,8 +11,12 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Meetup\Controller\Factory\MeetupControllerFactory;
 use Meetup\Form\Factory\MeetupFormFactory;
 use Meetup\Form\MeetupFormInterface;
+use Meetup\Repository\Factory\MeetupRepositoryFactory;
+use Meetup\Repository\MeetupRepository;
+use Meetup\Repository\MeetupRepositoryInterface;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -66,7 +70,8 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            MeetupFormInterface::class => MeetupFormFactory::class
+            MeetupFormInterface::class => MeetupFormFactory::class,
+            MeetupRepositoryInterface::class => MeetupRepositoryFactory::class
         ]
     ],
     'view_manager' => [
