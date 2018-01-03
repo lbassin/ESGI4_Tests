@@ -8,7 +8,6 @@ use Interop\Container\ContainerInterface;
 use Meetup\Controller\MeetupController;
 use Meetup\Form\MeetupFormInterface;
 use Meetup\Repository\MeetupRepositoryInterface;
-use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -33,9 +32,7 @@ final class MeetupControllerFactory implements FactoryInterface
         $meetupRepository = $container->get(MeetupRepositoryInterface::class);
         /** @var MeetupFormInterface $meetupForm */
         $meetupForm = $container->get(MeetupFormInterface::class);
-        /** @var EventManagerInterface $eventManager */
-        $eventManager = $container->get(EventManagerInterface::class);
 
-        return new MeetupController($meetupRepository, $meetupForm, $eventManager);
+        return new MeetupController($meetupRepository, $meetupForm);
     }
 }

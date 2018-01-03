@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Meetup\Entity\Meetup;
+use Meetup\Event\DatabaseInterface;
 use Zend\EventManager\EventManagerInterface;
 
 /**
@@ -35,9 +36,10 @@ final class MeetupRepository extends EntityRepository implements MeetupRepositor
         EventManagerInterface $eventManager
     )
     {
-        parent::__construct($entityManager, $class);
-
         $this->eventManager = $eventManager;
+        $this->eventManager->setIdentifiers([DatabaseInterface::class]);
+
+        parent::__construct($entityManager, $class);
     }
 
     /**

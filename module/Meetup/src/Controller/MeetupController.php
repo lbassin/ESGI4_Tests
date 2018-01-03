@@ -10,7 +10,6 @@ use Meetup\Entity\Meetup;
 use Meetup\Form\MeetupForm;
 use Meetup\Form\MeetupFormInterface;
 use Meetup\Repository\MeetupRepositoryInterface;
-use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -33,26 +32,19 @@ final class MeetupController extends AbstractActionController
      * @var MeetupFormInterface
      */
     private $meetupForm;
-    /**
-     * @var EventManagerInterface
-     */
-    private $eventManager;
 
     /**
      * MeetupController constructor.
      * @param MeetupRepositoryInterface $meetupRepository
      * @param MeetupFormInterface $meetupForm
-     * @param EventManagerInterface $eventManager
      */
     public function __construct(
         MeetupRepositoryInterface $meetupRepository,
-        MeetupFormInterface $meetupForm,
-        EventManagerInterface $eventManager
+        MeetupFormInterface $meetupForm
     )
     {
         $this->meetupRepository = $meetupRepository;
         $this->meetupForm = $meetupForm;
-        $this->eventManager = $eventManager;
     }
 
     /**
@@ -60,8 +52,6 @@ final class MeetupController extends AbstractActionController
      */
     public function indexAction(): ViewModel
     {
-        $this->eventManager->trigger('event_test'); // DEBUG
-
         /** @var array $meetups */
         $meetups = $this->meetupRepository->findAll();
 
