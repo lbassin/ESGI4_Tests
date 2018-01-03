@@ -1,22 +1,19 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
+
+declare(strict_types=1);
 
 namespace Meetup;
 
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Meetup\Controller\Factory\MeetupControllerFactory;
+use Meetup\Event\DatabaseInterface as DatabaseEventInterface;
+use Meetup\Event\Factory\DatabaseFactory as DatabaseEventFactory;
 use Meetup\Form\Factory\MeetupFormFactory;
 use Meetup\Form\MeetupFormInterface;
 use Meetup\Repository\Factory\MeetupRepositoryFactory;
-use Meetup\Repository\MeetupRepository;
 use Meetup\Repository\MeetupRepositoryInterface;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -71,7 +68,8 @@ return [
     'service_manager' => [
         'factories' => [
             MeetupFormInterface::class => MeetupFormFactory::class,
-            MeetupRepositoryInterface::class => MeetupRepositoryFactory::class
+            MeetupRepositoryInterface::class => MeetupRepositoryFactory::class,
+            DatabaseEventInterface::class => DatabaseEventFactory::class
         ]
     ],
     'view_manager' => [

@@ -60,6 +60,8 @@ final class MeetupController extends AbstractActionController
      */
     public function indexAction(): ViewModel
     {
+        $this->eventManager->trigger('event_test'); // DEBUG
+
         /** @var array $meetups */
         $meetups = $this->meetupRepository->findAll();
 
