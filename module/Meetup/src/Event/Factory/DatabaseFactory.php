@@ -15,7 +15,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
  *
  * @author Laurent Bassin <laurent@bassin.info>
  */
-class DatabaseFactory implements FactoryInterface
+final class DatabaseFactory implements FactoryInterface
 {
 
     /**
