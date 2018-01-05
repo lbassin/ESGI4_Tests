@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Meetup\Event\Factory;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
 use Meetup\Event\Database;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
+use Zend\Log\Logger;
+use Zend\Log\Writer\Stream;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -26,13 +25,18 @@ class DatabaseFactory implements FactoryInterface
      * @param  string $requestedName
      * @param  null|array $options
      * @return object
-     * @throws ServiceNotFoundException if unable to resolve the service.
-     * @throws ServiceNotCreatedException if an exception is raised when
-     *     creating a service.
-     * @throws ContainerException if any other error occurs
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new Database();
+        /** @var Logger $logger */
+        $logger = $container->get(Logger::class);
+        /** @var Stream $writer */
+        $writer = new Stream('php://stderr');
+
+        $logger->addWriter($writer);
+
+        return new Database($logger);
     }
 }

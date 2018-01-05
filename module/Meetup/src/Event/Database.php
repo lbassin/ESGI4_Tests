@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Meetup\Event;
 
+use Meetup\Entity\Meetup;
+use Zend\Log\LoggerInterface;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
@@ -18,6 +20,20 @@ final class Database implements ListenerAggregateInterface
 {
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * Database constructor.
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * @param \Zend\EventManager\EventManagerInterface $events
      * @param int $priority
      * @return void
@@ -28,6 +44,7 @@ final class Database implements ListenerAggregateInterface
         $sharedManager = $events->getSharedManager();
 
         $sharedManager->attach(DatabaseInterface::class, 'before_add', [$this, 'onBeforeAdd'], $priority);
+        $sharedManager->attach(DatabaseInterface::class, 'before_delete', [$this, 'onBeforeDelete'], $priority);
     }
 
     /**
@@ -44,6 +61,20 @@ final class Database implements ListenerAggregateInterface
      */
     public function onBeforeAdd(EventInterface $event)
     {
-        file_put_contents('/tmp/zend.log', 'rftghyujikol' . PHP_EOL, FILE_APPEND);
+        /** @var Meetup $meetup */
+        $meetup = $event->getParam('entity');
+
+        $this->logger->info("New meetup : " . $meetup->getTitle());
+    }
+
+    /**
+     * @param EventInterface $event
+     */
+    public function onBeforeDelete(EventInterface $event)
+    {
+        /** @var Meetup $meetup */
+        $meetup = $event->getParam('entity');
+
+        $this->logger->info("Deleted meetup : " . $meetup->getTitle());
     }
 }
