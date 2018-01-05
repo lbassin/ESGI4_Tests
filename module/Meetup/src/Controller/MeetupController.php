@@ -10,12 +10,15 @@ use Meetup\Entity\Meetup;
 use Meetup\Form\MeetupForm;
 use Meetup\Form\MeetupFormInterface;
 use Meetup\Repository\MeetupRepositoryInterface;
+use Zend\Form\Form;
 use Zend\Http\Request;
 use Zend\Http\Response;
+use Zend\Hydrator\HydratorInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ViewModel;
+use Zend\Hydrator\Reflection as ReflectionHydrator;
 
 /**
  * Class MeetupController
@@ -32,19 +35,26 @@ final class MeetupController extends AbstractActionController
      * @var MeetupFormInterface
      */
     private $meetupForm;
+    /**
+     * @var ReflectionHydrator
+     */
+    private $reflectionHydrator;
 
     /**
      * MeetupController constructor.
      * @param MeetupRepositoryInterface $meetupRepository
      * @param MeetupFormInterface $meetupForm
+     * @param HydratorInterface $reflectionHydrator
      */
     public function __construct(
         MeetupRepositoryInterface $meetupRepository,
-        MeetupFormInterface $meetupForm
+        MeetupFormInterface $meetupForm,
+        HydratorInterface $reflectionHydrator
     )
     {
         $this->meetupRepository = $meetupRepository;
         $this->meetupForm = $meetupForm;
+        $this->reflectionHydrator = $reflectionHydrator;
     }
 
     /**
@@ -143,11 +153,19 @@ final class MeetupController extends AbstractActionController
         $form = $this->meetupForm;
         /* @var Request $request */
         $request = $this->getRequest();
+        /** @var string $meetupId */
+        $meetupId = $this->params('id');
 
         $form->setData($request->getPost());
         if ($form->isValid()) {
             try {
-                $this->meetupRepository->save($form->getData());
+                /** @var array $data */
+                $data = $form->getData();
+                if($meetupId){
+                    $data['id'] = $meetupId;
+                }
+
+                $this->meetupRepository->save($data);
             } catch (OptimisticLockException $e) {
                 $flashMessenger->addErrorMessage('An error occurred');
             } catch (ORMException $e) {
@@ -160,5 +178,33 @@ final class MeetupController extends AbstractActionController
         }
 
         return $this->getResponse();
+    }
+
+    /**
+     * @return ViewModel
+     */
+    public function editAction(): ViewModel
+    {
+        /** @var Form $form */
+        $form = $this->meetupForm;
+        /* @var $request Request */
+        $request = $this->getRequest();
+        /** @var string $id */
+        $id = $this->params('id');
+        /** @var Meetup $meetup */
+        $meetup = $this->meetupRepository->find($id);
+        /** @var array $data */
+        $data = $this->reflectionHydrator->extract($meetup);
+
+        if ($request->isPost()) {
+            $this->saveMeetup($meetup);
+        }
+
+        $form->setData($data);
+        $form->prepare();
+
+        return new ViewModel([
+            'form' => $form
+        ]);
     }
 }

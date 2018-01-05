@@ -76,7 +76,12 @@ final class MeetupRepository extends EntityRepository implements MeetupRepositor
      */
     public function save($data): void
     {
+        /** @var Meetup $meetup */
         $meetup = new Meetup();
+        if ($data['id']) {
+            $meetup = $this->find($data['id']);
+            unset($data['id']);
+        }
 
         /** @var DoctrineHydrator $hydrator */
         $hydrator = new DoctrineHydrator($this->getEntityManager());

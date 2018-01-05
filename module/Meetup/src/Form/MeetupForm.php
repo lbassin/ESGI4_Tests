@@ -66,7 +66,7 @@ final class MeetupForm extends Form implements MeetupFormInterface, InputFilterP
             'type' => Element\Submit::class,
             'name' => 'submit',
             'attributes' => [
-                'value' => 'Create Meeting'
+                'value' => 'Submit'
             ],
             'options' => [
                 'label' => ''

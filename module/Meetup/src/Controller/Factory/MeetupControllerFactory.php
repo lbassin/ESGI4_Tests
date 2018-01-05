@@ -8,6 +8,7 @@ use Interop\Container\ContainerInterface;
 use Meetup\Controller\MeetupController;
 use Meetup\Form\MeetupFormInterface;
 use Meetup\Repository\MeetupRepositoryInterface;
+use Zend\Hydrator\Reflection as ReflectionHydrator;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -32,7 +33,9 @@ final class MeetupControllerFactory implements FactoryInterface
         $meetupRepository = $container->get(MeetupRepositoryInterface::class);
         /** @var MeetupFormInterface $meetupForm */
         $meetupForm = $container->get(MeetupFormInterface::class);
+        /** @var ReflectionHydrator $hydrator */
+        $hydrator = $container->get(ReflectionHydrator::class);
 
-        return new MeetupController($meetupRepository, $meetupForm);
+        return new MeetupController($meetupRepository, $meetupForm, $hydrator);
     }
 }

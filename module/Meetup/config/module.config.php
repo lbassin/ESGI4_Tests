@@ -12,8 +12,10 @@ use Meetup\Form\Factory\MeetupFormFactory;
 use Meetup\Form\MeetupFormInterface;
 use Meetup\Repository\Factory\MeetupRepositoryFactory;
 use Meetup\Repository\MeetupRepositoryInterface;
+use Zend\Hydrator\Reflection;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -55,6 +57,15 @@ return [
                                 'action' => 'delete'
                             ]
                         ]
+                    ],
+                    'edit' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/edit/:id',
+                            'defaults' => [
+                                'action' => 'edit',
+                            ]
+                        ]
                     ]
                 ]
             ],
@@ -69,14 +80,16 @@ return [
         'factories' => [
             MeetupFormInterface::class => MeetupFormFactory::class,
             MeetupRepositoryInterface::class => MeetupRepositoryFactory::class,
-            DatabaseEventInterface::class => DatabaseEventFactory::class
+            DatabaseEventInterface::class => DatabaseEventFactory::class,
+            Reflection::class => InvokableFactory::class,
         ]
     ],
     'view_manager' => [
         'template_map' => [
             'meetup/meetup/index' => __DIR__ . '/../view/meetup/index.phtml',
-            'meetup/meetup/new' => __DIR__ . '/../view/meetup/new.phtml',
+            'meetup/meetup/new' => __DIR__ . '/../view/meetup/form.phtml',
             'meetup/meetup/view' => __DIR__ . '/../view/meetup/view.phtml',
+            'meetup/meetup/edit' => __DIR__ . '/../view/meetup/form.phtml',
         ],
     ],
     'doctrine' => [

@@ -12,7 +12,8 @@
         "Ramsey/Uuid": "^3.7",
         "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
         "zendframework/zend-i18n": "^2.7",
-        "zendframework/zend-log": "^2.9"
+        "zendframework/zend-log": "^2.9",
+        "zendframework/zend-hydrator": "^2.3"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.9"

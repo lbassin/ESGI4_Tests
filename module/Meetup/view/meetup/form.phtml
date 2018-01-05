@@ -1,7 +1,12 @@
-<?php $form = $this->form; /** @var $form \Zend\Form\Form */ ?>
+<?
+/** @var $form \Zend\Form\Form */
+$form = $this->form;
+/** @var bool $isNew */
+$isNew = empty($form->get('title')->getValue());
+?>
 <div class="row">
     <div class="col-xs-12">
-        <h1>New meetup</h1>
+        <h1><?php echo $isNew ? 'New meetup' : 'Edit meetup'; ?></h1>
     </div>
 </div>
 <div class="row">
