@@ -9,7 +9,7 @@ namespace Application;
  *
  * @author Laurent Bassin <laurent@bassin.info>
  */
-class Module
+final class Module
 {
     /**
      *
@@ -17,7 +17,7 @@ class Module
     const VERSION = '3.0.3-dev';
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getConfig(): array
     {
