@@ -7,6 +7,7 @@ namespace Meetup\Form;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use Zend\InputFilter\InputFilterProviderInterface;
+use Zend\Validator\Date;
 use Zend\Validator\StringLength;
 
 /**
