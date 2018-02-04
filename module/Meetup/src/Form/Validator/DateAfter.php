@@ -44,7 +44,7 @@ final class DateAfter extends AbstractValidator
         /** @var \DateTime $endDate */
         $endDate = new \DateTime($endAt);
 
-        if ($startDate > $endDate) {
+        if ($startDate >= $endDate) {
             $this->error(self::INVALID);
 
             return false;
